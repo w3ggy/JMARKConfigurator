@@ -7,6 +7,7 @@ import java.awt.*;
  */
 public class Settings {
     public static final int FONT_SIZE = 14;
+    public static final int FONT_SIZE_TITLE = 25;
     public static final String FONT_NAME = "monospaced";
     public static final int FONT_TYPE = Font.BOLD;
     public static final int xMax = 450;

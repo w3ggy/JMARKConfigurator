@@ -22,7 +22,7 @@ public class MainWindow extends JFrame {
 
     private ArrayList<GroupBox> listOfGroupBox = new ArrayList<>();
 
-    private JLabel displayLabel = new JLabel("J-Mark");
+    private JLabel displayLabel = new JLabel("J-Mark System");
 
     JTextField tf_taskName;
     JTextField tf_description;
@@ -38,7 +38,7 @@ public class MainWindow extends JFrame {
         buttonsPanel.setLayout(new FlowLayout());
         buttonsPanel.setMaximumSize(new Dimension(Settings.xMax, Settings.yMax + 30));
 
-        ComponentMaker.makeLabel(displayLabel, mainPanel);
+        ComponentMaker.makeTitle(displayLabel, mainPanel);
 
         ActionListener actionListener = e -> {
             switch (e.getActionCommand()) {
@@ -68,19 +68,19 @@ public class MainWindow extends JFrame {
         ComponentMaker.makeButton(saveButton, buttonsPanel, actionListener);
 
         namePanel = new JPanel();
-        namePanel.setLayout(new BoxLayout(namePanel, BoxLayout.LINE_AXIS));
-        //namePanel.setLayout(new FlowLayout());
+        namePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        namePanel.setMaximumSize(new Dimension(Settings.xMax, Settings.yMax + 15));
         JLabel taskName = new JLabel("Name:");
-        tf_taskName = new JTextField();
+        tf_taskName = new JTextField(20);
         ComponentMaker.makeLabel(taskName, namePanel);
         ComponentMaker.makeTextField(tf_taskName, namePanel);
         mainPanel.add(namePanel);
 
         descriptionPanel = new JPanel();
-        descriptionPanel.setLayout(new BoxLayout(descriptionPanel, BoxLayout.LINE_AXIS));
-        //descriptionPanel.setLayout(new FlowLayout());
+        descriptionPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        descriptionPanel.setMaximumSize(new Dimension(Settings.xMax, Settings.yMax + 15));
         JLabel taskDescription = new JLabel("Description:");
-        tf_description = new JTextField();
+        tf_description = new JTextField(20);
         ComponentMaker.makeLabel(taskDescription, descriptionPanel);
         ComponentMaker.makeTextField(tf_description, descriptionPanel);
         mainPanel.add(descriptionPanel);
