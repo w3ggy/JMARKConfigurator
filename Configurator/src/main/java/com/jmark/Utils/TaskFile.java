@@ -26,7 +26,7 @@ public class TaskFile implements Runnable {
     private void writeHeadOfTheFile(BufferedWriter writer) throws IOException {
         String head = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
                 "<task name=\"" + taskName + "\">\n" +
-                "<description>" + description + "</description>\n" +
+                "\t<description>" + description + "</description>\n" +
                 "</task>\n" +
                 "<tests>\n" +
                 "<form name=\"Frame\">\n";
@@ -34,8 +34,7 @@ public class TaskFile implements Runnable {
     }
 
     private void writeFootOfTheFile(BufferedWriter writer) throws IOException {
-        String head = "</test>\n" +
-                "</tests>\n" +
+        String head = "</tests>\n" +
                 "</form>\n";
         writer.write(head.toCharArray());
     }
@@ -48,8 +47,8 @@ public class TaskFile implements Runnable {
 
             writeHeadOfTheFile(writer);
 
-            for (GroupBox groupBox : listOfGroupBox) {
-                createTask(writer, groupBox);
+            for (int i = 0; i < listOfGroupBox.size(); i++) {
+                createTask(writer, listOfGroupBox.get(i), i);
             }
 
             writeFootOfTheFile(writer);
@@ -73,7 +72,15 @@ public class TaskFile implements Runnable {
         }
     }
 
-    private void createTask(BufferedWriter writer, GroupBox groupBox) {
+    private void createTask(BufferedWriter writer, GroupBox groupBox, int position) throws IOException {
+        String head = "<test id=\"" + position + "\" type=\"" + groupBox.getAction() + "\">\n" +
+                "\t<component>" + groupBox.getType() + "</component>\n" +
+                "\t<name>" + groupBox.getName() + "</name>\n" +
+                "\t<value>" + groupBox.getValue() + "</value>\n" +
+                "</test>\n" +
+                "\n";
+        writer.write(head.toCharArray());
+
 
     }
 }

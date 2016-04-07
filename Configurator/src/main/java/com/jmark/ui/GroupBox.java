@@ -13,11 +13,11 @@ public class GroupBox {
 
     public static int numberOfExercises = 1;
 
-    JTextField TF_name;
-    JTextField TF_action;
+    private JTextField TF_name;
+    private JTextField TF_action;
 
-    JComboBox CB_swingTypes;
-    JComboBox CB_actions;
+    private JComboBox CB_swingTypes;
+    private JComboBox CB_actions;
 
     JPanel groupBox;
 
@@ -42,6 +42,22 @@ public class GroupBox {
 
         GridLayout layout = new GridLayout(2, 2, 20, 20);
         groupBox.setLayout(layout);
+    }
+
+    public String getType() {
+        return CB_swingTypes.getSelectedItem().toString();
+    }
+
+    public String getAction() {
+        return CB_actions.getSelectedItem().toString();
+    }
+
+    public String getName() {
+        return TF_name.getText().toString();
+    }
+
+    public String getValue() {
+        return TF_action.getText().toString();
     }
 
     public JPanel getGroupBox() {
