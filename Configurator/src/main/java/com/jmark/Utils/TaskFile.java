@@ -13,8 +13,8 @@ public class TaskFile implements Runnable {
     File tasksFile;
     File directoryForSaving;
     ArrayList<GroupBox> listOfGroupBox;
-    String taskName = "";
-    String description = "";
+    String taskName;
+    String description;
 
     public TaskFile(File directoryForSaving, ArrayList<GroupBox> listOfGroupBox, String taskName, String description) {
         this.directoryForSaving = directoryForSaving;
@@ -44,7 +44,6 @@ public class TaskFile implements Runnable {
         initialize();
         try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(tasksFile), "UTF8"))) {
             System.out.println("Writing to the file");
-
             writeHeadOfTheFile(writer);
 
             for (int i = 0; i < listOfGroupBox.size(); i++) {
@@ -52,6 +51,7 @@ public class TaskFile implements Runnable {
             }
 
             writeFootOfTheFile(writer);
+            System.out.println("Writing to the file ended successful");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             System.out.println("File not found!");

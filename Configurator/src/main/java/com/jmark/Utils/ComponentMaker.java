@@ -16,7 +16,6 @@ public class ComponentMaker {
         label.setFont(new Font(Settings.FONT_NAME, Settings.FONT_TYPE, Settings.FONT_SIZE));
         label.setAlignmentX(Component.CENTER_ALIGNMENT);
         panel.add(label);
-
     }
 
 
@@ -33,7 +32,7 @@ public class ComponentMaker {
         textField.setFont(new Font(Settings.FONT_NAME, Settings.FONT_TYPE, Settings.FONT_SIZE));
         textField.setForeground(Color.DARK_GRAY);
         textField.setBackground(Color.LIGHT_GRAY);
-//        textField.setColumns(20);
+        textField.setMaximumSize(new Dimension(200, 20));
         panel.add(textField);
     }
 
@@ -52,8 +51,6 @@ public class ComponentMaker {
             actions.removeAllItems();
             for (String tmp : returnCombo(item))
                 actions.addItem(tmp);
-
-
         };
         swingTypes.addActionListener(actionListener);
         panel.add(swingTypes);
