@@ -35,9 +35,10 @@ public class GroupBox {
         ComponentMaker.makeTextField(TF_name, groupBox);
         ComponentMaker.makeTextField(TF_action, groupBox);
 
-        numberOfExercises++;
+
         groupBox.setBorder(BorderFactory.createTitledBorder("Task " + numberOfExercises));
 
+        numberOfExercises++;
 
         GridLayout layout = new GridLayout(2, 2, 20, 20);
         groupBox.setLayout(layout);

@@ -2,17 +2,18 @@ package com.jmark.ui;
 
 import com.jmark.Settings;
 import com.jmark.Utils.ComponentMaker;
+import com.jmark.Utils.TaskFile;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.ArrayList;
 
 /**
  * Created by Artyom on 07.04.2016.
  */
-public class MainWindow extends JFrame implements ActionListener {
+public class MainWindow extends JFrame {
 
     private JPanel mainPanel;
     private JPanel buttonsPanel;
@@ -24,12 +25,8 @@ public class MainWindow extends JFrame implements ActionListener {
     public JScrollPane panelPane;
     public JPanel menuPanel;
 
-    private JButton saveButton = new JButton("Save");
-    private JButton addButton = new JButton("Add");
-    private JButton deleteButton = new JButton("Delete");
-
     public MainWindow() {
-        super("J-Mark");
+        super("J-Mark System Configurator");
         mainPanel = new JPanel();
         mainPanel.setLayout((new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS)));
 
@@ -51,11 +48,16 @@ public class MainWindow extends JFrame implements ActionListener {
                     break;
                 case "Save":
                     System.out.println("Saving!");
+                    saveTasks();
                     break;
                 default:
                     break;
             }
         };
+
+        JButton saveButton = new JButton("Save");
+        JButton addButton = new JButton("Add");
+        JButton deleteButton = new JButton("Delete");
 
         ComponentMaker.makeButton(addButton, menuPanel, actionListener);
         ComponentMaker.makeButton(deleteButton, menuPanel, actionListener);
@@ -73,27 +75,40 @@ public class MainWindow extends JFrame implements ActionListener {
         setResizable(false);
     }
 
-    public void actionPerformed(ActionEvent e) {
-
-    }
-
     private void deleteGroupBox() {
-        if (listOfGroupBox.size() > 0) {
-            System.out.println("Test!");
-
-            this.revalidate();
-            this.repaint();
+        if (listOfGroupBox.size() > 1) {
+            mainPanel.remove(listOfGroupBox.get(listOfGroupBox.size() - 1).getGroupBox());
+            mainPanel.repaint(); // revalidate doesn't need
+            listOfGroupBox.remove(listOfGroupBox.size() - 1);
+            GroupBox.numberOfExercises--;
         }
     }
 
     private void createGroupBox() {
-
         GroupBox groupBox = new GroupBox();
 
-        mainPanel.add(groupBox.getGroupBox());
         listOfGroupBox.add(groupBox);
 
+        mainPanel.add(groupBox.getGroupBox());
         mainPanel.revalidate();
-        mainPanel.repaint();
+    }
+
+    private void saveTasks() {
+        File directoryForSaving = chooseFile();
+
+        TaskFile taskFile = new TaskFile(directoryForSaving, listOfGroupBox, "Проверка диалогового сценария", "Описание");
+        Thread thread = new Thread(taskFile);
+        thread.start();
+    }
+
+    private File chooseFile() {
+        JFileChooser dialog = new JFileChooser();
+        dialog.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        dialog.setApproveButtonText("Choose");
+        dialog.setDialogTitle("Choose directory for saving");
+        dialog.setDialogType(JFileChooser.SAVE_DIALOG);
+        dialog.setMultiSelectionEnabled(false);
+        dialog.showOpenDialog(this);
+        return dialog.getSelectedFile();
     }
 }
