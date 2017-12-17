@@ -3,17 +3,25 @@ package com.jmark.ui;
 import com.jmark.Settings;
 import com.jmark.Utils.ComponentMaker;
 import com.jmark.Utils.TaskFile;
+import com.jmark.domain.JMarkActions;
+import com.jmark.domain.JMarkComponent;
+import com.jmark.interfaces.DataObserver.DataObserver;
+import javafx.util.Pair;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Artyom on 07.04.2016.
  */
-public class MainWindow extends JFrame {
+public class MainWindow
+        extends JFrame
+        implements DataObserver {
 
     private JPanel mainPanel;
     private JPanel buttonsPanel;
@@ -23,6 +31,7 @@ public class MainWindow extends JFrame {
     private ArrayList<GroupBox> listOfGroupBox = new ArrayList<>();
 
     private JLabel displayLabel = new JLabel("J-Mark System");
+    private JLabel coverageLabel = new JLabel("0 %");
 
     JTextField tf_taskName;
     JTextField tf_description;
@@ -67,6 +76,8 @@ public class MainWindow extends JFrame {
         ComponentMaker.makeButton(deleteButton, buttonsPanel, actionListener);
         ComponentMaker.makeButton(saveButton, buttonsPanel, actionListener);
 
+        ComponentMaker.makeLabel(coverageLabel, mainPanel);
+
         namePanel = new JPanel();
         namePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
         namePanel.setMaximumSize(new Dimension(Settings.xMax, Settings.yMax + 15));
@@ -96,6 +107,24 @@ public class MainWindow extends JFrame {
         setResizable(false);
     }
 
+    @Override
+    public void onDataChanged() {
+        int all = 0;
+
+        for (JMarkComponent component : JMarkComponent.values()) {
+            all += component.getActions().size();
+        }
+
+        Set<Pair<JMarkComponent, JMarkActions>> uniquePairs = new HashSet<>();
+
+        for (GroupBox box : listOfGroupBox) {
+            uniquePairs.add(new Pair<>(box.getComponent(), box.getAction()));
+        }
+
+        float coveragePercent = 100f * uniquePairs.size() / all;
+        coverageLabel.setText(String.format("Coverage percent is: %.2f %%", coveragePercent));
+    }
+
     private void deleteGroupBox() {
         if (listOfGroupBox.size() > 1) {
             mainPanel.remove(listOfGroupBox.get(listOfGroupBox.size() - 1).getGroupBox());
@@ -106,7 +135,7 @@ public class MainWindow extends JFrame {
     }
 
     private void createGroupBox() {
-        GroupBox groupBox = new GroupBox();
+        GroupBox groupBox = new GroupBox(this);
         listOfGroupBox.add(groupBox);
         mainPanel.add(groupBox.getGroupBox());
         mainPanel.revalidate();

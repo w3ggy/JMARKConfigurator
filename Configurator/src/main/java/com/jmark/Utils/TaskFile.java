@@ -73,7 +73,7 @@ public class TaskFile implements Runnable {
     }
 
     private void writeTest(BufferedWriter writer, GroupBox groupBox, int position) throws IOException {
-        String head = "<test id=\"" + position + "\" type=\"" + groupBox.getAction() + "\">\n" +
+        String head = "<test id=\"" + position + "\" type=\"" + groupBox.getActionName() + "\">\n" +
                 "\t<component>" + groupBox.getType() + "</component>\n" +
                 "\t<name>" + groupBox.getName() + "</name>\n" +
                 "\t<value>" + groupBox.getValue() + "</value>\n" +
